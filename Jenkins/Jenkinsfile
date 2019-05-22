@@ -17,7 +17,7 @@ node {
         }
     }
     stage('Run Container on Dev Server'){
-        def CMD="sudo docker run -d --name=web -p:80:8080 --rm chaoqiao/myapp:v1.0.0"
+        def CMD="sudo docker run -d --name=web -p:80:8080 --rm chaoqiao/mywebapp:v1.0.0"
         sshagent(['AWSKey']) {
             sh "ssh ec2-user@3.89.39.1 -o StrictHostKeyChecking=no $CMD"
         }
