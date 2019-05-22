@@ -8,7 +8,7 @@ node {
         sh "${mvnCMD} clean install package"
     }
     stage('Build Docker Image'){
-        sh 'docker build -t chaoqiao/myapp:v1.0.1 .'
+        sh 'docker build -t chaoqiao/myapp:v1.0.1 -f Jenkins/BuildDockerImage .'
     }
     stage('Push Docker Image'){
         withCredentials([string(credentialsId: 'DockerHubPWD', variable: 'DockerPWD')]) {
