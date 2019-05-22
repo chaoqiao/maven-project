@@ -8,16 +8,16 @@ node {
         sh "${mvnCMD} clean install package"
     }
     stage('Build Docker Image'){
-        sh 'docker build -t chaoqiao/myapp:v1.0.1 -f Jenkins/Dockerfile .'
+        sh 'docker build -t chaoqiao/mywebapp:v1.0.0 -f Jenkins/Dockerfile .'
     }
     stage('Push Docker Image'){
         withCredentials([string(credentialsId: 'DockerHubPWD', variable: 'DockerPWD')]) {
            sh "docker login -u chaoqiao -p ${DockerPWD}"
-           sh 'docker push chaoqiao/myapp:v1.0.1'
+           sh 'docker push chaoqiao/mywebapp:v1.0.0'
         }
     }
     stage('Run Container on Dev Server'){
-        def CMD="sudo docker run -d --name=myapp2 -p:80:8080 chaoqiao/myapp:v1.0.1"
+        def CMD="sudo docker run -d --name=web -p:80:8080 --rm chaoqiao/myapp:v1.0.0"
         sshagent(['AWSKey']) {
             sh "ssh ec2-user@3.89.39.1 -o StrictHostKeyChecking=no $CMD"
         }
