@@ -9,7 +9,7 @@
 #
 #  Note: 
 #  1. need to configure two login details in Jenkins credentials, DockerHub, Remote Server Login
-#  2. need to configure the  JAVA_HONE in Global Configuration
+#  2. need to configure the  JAVA_HOME in Global Configuration
 #  3. need to configure the Maven tools in Global Tools Configuration
 #  4. need to configure install ssh agent plugin in Jenkins
 #
