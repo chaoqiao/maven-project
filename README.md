@@ -12,4 +12,4 @@
 #  2. need to configure the  JAVA_HOME in Global Configuration
 #  3. need to configure the Maven tools in Global Tools Configuration
 #  4. need to configure install ssh agent plugin in Jenkins
-#
+#  5. make sure dev server port 8080 is available so that we can map port 8080 to container port 8080.
