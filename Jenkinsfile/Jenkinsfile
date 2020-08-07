@@ -1,0 +1,20 @@
+pipeline{
+  agent any
+  stages{
+    stage('Build'){
+      steps{
+        echo 'Building ...'
+      }
+    }
+    stage('Test'){
+      steps{
+        echo 'Testing ...'
+      }
+    }
+  }
+  post{
+    failure{
+      mail to:'chao.qiao@ex.nri-itsa.com',subject:'The Pipeline Failed',body:'The Pipeline Failed'
+    }
+  }
+}
