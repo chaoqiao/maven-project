@@ -1,20 +1,31 @@
 pipeline{
-  agent any
-  stages{
-    stage('Build'){
-      steps{
-        echo 'Building ...'
-      }
+    agent {label 'master'}
+    tools{
+        maven 'Maven3'
     }
-    stage('Test'){
-      steps{
-        echo 'Testing ...'
-      }
+    triggers{
+        pollSCM('*/1 * * * *')
     }
-  }
-  post{
-    failure{
-      mail to:'chao.qiao@ex.nri-itsa.com',subject:'The Pipeline Failed',body:'The Pipeline Failed'
+    stages{
+        stage('SCM Checkout'){
+            steps{
+                git 'https://github.com/chaoqiao/simple-maven-webapp.git'
+            }
+        }
+        stage('Build Code'){
+            steps{
+                sh 'mvn clean package'
+            }
+        }
+        stage('Push Image'){
+            steps{
+                sh "docker build -f Jenkinsfile/Dockerfile -t chaoqiao/myapp:v${env.BUILD_NUMBER} ."
+                withCredentials([usernamePassword(credentialsId: 'DockerHub', passwordVariable: 'PASS', usernameVariable: 'USERNAME')]) {
+                    sh "docker login -u ${env.USERNAME} -p ${env.PASS}"
+                    sh "docker push chaoqiao/myapp:v${env.BUILD_NUMBER}"
+                }
+                
+            }
+        }
     }
-  }
 }
